@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MS University — Create Account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --panel: #10162b;
+    --glass: rgba(255,255,255,0.045);
+    --glass-border: rgba(255,255,255,0.09);
+    --accent-violet: #8b5cf6;
+    --accent-cyan: #38dfea;
+    --text: #edeff7;
+    --muted: #8891a8;
+    --error: #f87171;
+    --success: #4ade80;
+    --radius: 18px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    color-scheme: dark;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ---------- Left brand panel ---------- */
+  .brand-panel {
+    position: relative;
+    flex: 1 1 46%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 56px 64px;
+    overflow: hidden;
+    background: radial-gradient(120% 120% at 20% 15%, #171f3d 0%, #0a0e1a 60%);
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .orb-1 { width: 380px; height: 380px; background: var(--accent-violet); top: -120px; left: -80px; }
+  .orb-2 { width: 300px; height: 300px; background: var(--accent-cyan); bottom: -100px; right: -60px; opacity: 0.35; }
+
+  .brand-mark {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    z-index: 2;
+  }
+
+  .brand-mark .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+    transform: rotate(45deg);
+  }
+
+  .brand-copy {
+    position: relative;
+    z-index: 2;
+    max-width: 420px;
+  }
+
+  .brand-copy h1 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+
+  .brand-copy p {
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 15.5px;
+    line-height: 1.65;
+  }
+
+  .stat-row {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 36px;
+    margin-top: 44px;
+  }
+
+  .stat-row div span:first-child {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  .stat-row div span:last-child {
+    display: block;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  .brand-footer {
+    position: relative;
+    z-index: 2;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* ---------- Right form panel ---------- */
+  .form-panel {
+    flex: 1 1 54%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    background: var(--panel);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(20px);
+    padding: 44px 40px 36px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  }
+
+  .card h2 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+  }
+
+  .card .sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 6px;
+    margin-bottom: 30px;
+  }
+
+  form { display: flex; flex-direction: column; gap: 18px; }
+
+  .field-row { display: flex; gap: 14px; }
+  .field-row .field { flex: 1; }
+
+  .field { display: flex; flex-direction: column; gap: 7px; }
+
+  .field label {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .input-wrap { position: relative; }
+
+  .field input, .field select {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-size: 14.5px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
+    appearance: none;
+  }
+
+  .field select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238891a8' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+
+  .field select option {
+    background-color: #131a2e;
+    color: var(--text);
+  }
+
+  .field select option:disabled {
+    color: #5b6478;
+  }
+
+  .field input::placeholder { color: #5b6478; }
+
+  .field input:focus, .field select:focus {
+    border-color: var(--accent-violet);
+    background: rgba(139,92,246,0.06);
+  }
+
+  .field.invalid input { border-color: var(--error); }
+  .field .hint { font-size: 12px; color: var(--error); display: none; }
+  .field.invalid .hint { display: block; }
+
+  .toggle-visibility {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 12.5px;
+    font-family: 'Inter', sans-serif;
+    padding: 4px 6px;
+  }
+  .toggle-visibility:hover { color: var(--text); }
+
+  .strength-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.08);
+    overflow: hidden;
+    margin-top: 2px;
+  }
+  .strength-bar > div {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-violet), var(--accent-cyan));
+    transition: width 0.25s ease;
+  }
+
+  .submit-btn {
+    margin-top: 6px;
+    padding: 13px 20px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent-violet), #6d4fd6 60%, var(--accent-cyan));
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 10px 30px rgba(139,92,246,0.25);
+  }
+  .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 14px 34px rgba(139,92,246,0.35); }
+  .submit-btn:active { transform: translateY(0); }
+
+  .switch-line {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13.5px;
+    margin-top: 20px;
+  }
+  .switch-line a { color: var(--accent-cyan); text-decoration: none; font-weight: 500; }
+  .switch-line a:hover { text-decoration: underline; }
+
+  .success-panel {
+    display: none;
+    text-align: center;
+    padding: 20px 0 8px;
+  }
+  .success-panel.show { display: block; }
+  .success-panel .tick {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(74,222,128,0.12);
+    border: 1px solid rgba(74,222,128,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+  }
+  .success-panel h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .success-panel p { color: var(--muted); font-size: 14px; }
+
+  @media (max-width: 860px) {
+    body { flex-direction: column; }
+    .brand-panel { flex: none; padding: 36px 28px; min-height: 200px; }
+    .stat-row { display: none; }
+    .form-panel { padding: 32px 18px 60px; }
+    .card { padding: 32px 24px 28px; }
+    .field-row { flex-direction: column; gap: 18px; }
+  }
+
+  @media (max-width: 480px) {
+    .brand-panel { padding: 28px 20px; min-height: 170px; }
+    .brand-mark { font-size: 17px; }
+    .brand-copy h1 { font-size: 26px; }
+    .brand-copy p { font-size: 14px; margin-top: 12px; }
+    .brand-footer { display: none; }
+
+    .form-panel { padding: 24px 14px 48px; }
+    .card { padding: 26px 18px 22px; border-radius: 14px; }
+    .card h2 { font-size: 22px; }
+    .card .sub { font-size: 13.5px; margin-bottom: 24px; }
+
+    form { gap: 16px; }
+    .field input, .field select { padding: 13px 14px; font-size: 16px; }
+    .toggle-visibility { padding: 8px 6px; font-size: 12.5px; }
+    .submit-btn { padding: 14px 20px; font-size: 15px; }
+  }
+
+  @media (max-width: 340px) {
+    .brand-copy h1 { font-size: 22px; }
+    .card { padding: 22px 14px 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  input:focus-visible, select:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="brand-panel">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="brand-mark"><span class="dot"></span>MS University</div>
+
+    <div class="brand-copy">
+      <h1>One account for every corner of campus life.</h1>
+      <p>Register once to reach your courses, attendance, grades, and hostel services from a single dashboard.</p>
+      <div class="stat-row">
+        <div><span>12k+</span><span>Active students</span></div>
+        <div><span>48</span><span>Departments</span></div>
+        <div><span>99.9%</span><span>Uptime</span></div>
+      </div>
+    </div>
+
+    <div class="brand-footer">© 2026 MS University</div>
+  </div>
+
+  <div class="form-panel">
+    <div class="card">
+
+      <div id="formView">
+        <h2>Create your account</h2>
+        <p class="sub">Fill in your details to get access to the student portal.</p>
+
+        <form id="regForm" novalidate>
+
+          <div class="field" id="f-name">
+            <label for="fullName">Full name</label>
+            <input type="text" id="fullName" placeholder="e.g. Aditi Sharma" autocomplete="name" required>
+            <span class="hint">Please enter your full name.</span>
+          </div>
+
+          <div class="field-row">
+            <div class="field" id="f-email">
+              <label for="email">College email</label>
+              <input type="email" id="email" placeholder="you@college.edu" autocomplete="email" required>
+              <span class="hint">Enter a valid email address.</span>
+            </div>
+            <div class="field" id="f-roll">
+              <label for="rollNo">Student ID</label>
+              <input type="text" id="rollNo" placeholder="e.g. CS2026041" required>
+              <span class="hint">Student ID is required.</span>
+            </div>
+          </div>
+
+          <div class="field" id="f-dept">
+            <label for="dept">Department</label>
+            <select id="dept" required>
+              <option value="" disabled selected>Select your department</option>
+              <option>Computer Science</option>
+              <option>Electronics & Communication</option>
+              <option>Mechanical Engineering</option>
+              <option>Civil Engineering</option>
+              <option>Business Administration</option>
+              <option>Design</option>
+            </select>
+            <span class="hint">Please select a department.</span>
+          </div>
+
+          <div class="field" id="f-pass">
+            <label for="password">Password</label>
+            <div class="input-wrap">
+              <input type="password" id="password" placeholder="Create a password" autocomplete="new-password" required>
+              <button type="button" class="toggle-visibility" data-target="password">Show</button>
+            </div>
+            <div class="strength-bar"><div id="strengthFill"></div></div>
+            <span class="hint">Use at least 8 characters.</span>
+          </div>
+
+          <div class="field" id="f-confirm">
+            <label for="confirmPassword">Confirm password</label>
+            <div class="input-wrap">
+              <input type="password" id="confirmPassword" placeholder="Re-enter your password" autocomplete="new-password" required>
+              <button type="button" class="toggle-visibility" data-target="confirmPassword">Show</button>
+            </div>
+            <span class="hint">Passwords do not match.</span>
+          </div>
+
+          <button type="submit" class="submit-btn">Create account</button>
+        </form>
+
+        <p class="switch-line">Already have an account? <a href="#">Sign in instead</a></p>
+      </div>
+
+      <div class="success-panel" id="successView">
+        <div class="tick">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h3>Account created</h3>
+        <p>Your student portal access is ready. You can now sign in with your college email.</p>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+  const form = document.getElementById('regForm');
+  const fields = {
+    fullName: document.getElementById('fullName'),
+    email: document.getElementById('email'),
+    rollNo: document.getElementById('rollNo'),
+    dept: document.getElementById('dept'),
+    password: document.getElementById('password'),
+    confirmPassword: document.getElementById('confirmPassword'),
+  };
+
+  // Password visibility toggles
+  document.querySelectorAll('.toggle-visibility').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.target);
+      const isHidden = target.type === 'password';
+      target.type = isHidden ? 'text' : 'password';
+      btn.textContent = isHidden ? 'Hide' : 'Show';
+    });
+  });
+
+  // Password strength meter
+  const strengthFill = document.getElementById('strengthFill');
+  fields.password.addEventListener('input', () => {
+    const v = fields.password.value;
+    let score = 0;
+    if (v.length >= 8) score++;
+    if (/[A-Z]/.test(v)) score++;
+    if (/[0-9]/.test(v)) score++;
+    if (/[^A-Za-z0-9]/.test(v)) score++;
+    const pct = (score / 4) * 100;
+    strengthFill.style.width = pct + '%';
+    strengthFill.style.background = score <= 1
+      ? '#f87171'
+      : score === 2
+        ? '#fbbf24'
+        : 'linear-gradient(90deg, #8b5cf6, #38dfea)';
+  });
+
+  function setInvalid(id, invalid) {
+    document.getElementById(id).classList.toggle('invalid', invalid);
+  }
+
+  function validate() {
+    let valid = true;
+
+    const nameOk = fields.fullName.value.trim().length > 1;
+    setInvalid('f-name', !nameOk); if (!nameOk) valid = false;
+
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.value.trim());
+    setInvalid('f-email', !emailOk); if (!emailOk) valid = false;
+
+    const rollOk = fields.rollNo.value.trim().length > 2;
+    setInvalid('f-roll', !rollOk); if (!rollOk) valid = false;
+
+    const deptOk = fields.dept.value !== '';
+    setInvalid('f-dept', !deptOk); if (!deptOk) valid = false;
+
+    const passOk = fields.password.value.length >= 8;
+    setInvalid('f-pass', !passOk); if (!passOk) valid = false;
+
+    const matchOk = fields.confirmPassword.value === fields.password.value && fields.confirmPassword.value.length > 0;
+    setInvalid('f-confirm', !matchOk); if (!matchOk) valid = false;
+
+    return valid;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('successView').classList.add('show');
+  });
+</script>
+
+</body>
+</html>
